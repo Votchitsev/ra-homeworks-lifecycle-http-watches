@@ -1,0 +1,26 @@
+label {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}
+
+input[type="submit"] {
+  cursor: pointer;
+}
+
+.watches {
+  display: flex;
+  flex-direction: column;
+  margin: 50px auto;
+  width: 25%;
+}
+
+.watches-form {
+  display: flex;
+  justify-content: space-between;
+}
+
+.watches-container {
+  display: flex;
+  margin-top: 50px;
+}
