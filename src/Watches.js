@@ -20,13 +20,13 @@ function Watches() {
 
   const changeWatches = (deleteWatchId) => {
     if (!deleteWatchId) {
-      const Tz = timeZone.current.value;
+      const tz = timeZone.current.value;
       let delta = 0;
       
-      if (/\+/.test(Tz)) {
-        delta += Number(Tz.match(/\d{1,2}/) * 3600000)
+      if (/\+/.test(tz)) {
+        delta += Number(tz.match(/\d{1,2}/) * 3600000)
       } else {
-        delta -= Number(Tz.match(/\d{1,2}/) * 3600000)
+        delta -= Number(tz.match(/\d{1,2}/) * 3600000)
       }
 
       setWatches(
@@ -50,6 +50,7 @@ function Watches() {
   }
 
   const onSubmitHandler = (e) => {
+    console.log(e);
     e.preventDefault();
     changeWatches()
     name.current.value = '';
@@ -58,14 +59,14 @@ function Watches() {
 
   return (
     <div className="watches">
-      <form className="watches-form">
+      <form className="watches-form" >
         <label htmlFor='name'>{ 'Название' }
-          <input type="text" name="name" ref={ name }></input>
+          <input type="text" name="name" ref={ name } required></input>
         </label>
-        <label htmlFor="date">{ 'Временная зона' }
-          <input type="text" name="date" ref={ timeZone } pattern="^(\+|\-)\d{1,2}"></input> 
+        <label htmlFor="tz">{ 'Временная зона' }
+          <input type="text" name="tz" ref={ timeZone } pattern="(\+|-)\d{1,2}" placeholder='введите разницу, например +1 или -2'></input> 
         </label>
-        <input type="submit" onClick={ onSubmitHandler }></input>
+        <input type="submit" onClick={ onSubmitHandler } value="OK"></input>
       </form>
       <div className="watches-container">
         { watches.map(watch => <Watch watchData={ watch } time={ time } key={ watch.name } id={ watch.name } changeWatches={ changeWatches } />) }
