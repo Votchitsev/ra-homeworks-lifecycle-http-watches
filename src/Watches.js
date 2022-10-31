@@ -1,29 +1,39 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import './Watches.css';
 import Watch from './Watch';
 
-function Watchers() {
+function Watches() {
 
   let [watches, setWatches] = useState([]);
+  let [time, setTime] = useState(Date.now());
   
   const name = useRef();
   const timeZone = useRef();
 
+  useEffect(() => {
+    setTimeout(() => {
+      setTime((time => time + 1000))
+    }, 1000)
+
+    return;
+  }, [ time ])
+
   const changeWatches = (deleteWatchId) => {
     if (!deleteWatchId) {
       const Tz = timeZone.current.value;
-      let time = Date.now();
+      let delta = 0;
       
       if (/\+/.test(Tz)) {
-        time += Number(Tz.match(/\d{1,2}/) * 3600000)
+        delta += Number(Tz.match(/\d{1,2}/) * 3600000)
       } else {
-        time -= Number(Tz.match(/\d{1,2}/) * 3600000)
+        delta -= Number(Tz.match(/\d{1,2}/) * 3600000)
       }
 
       setWatches(
         watches = [...watches, { 
           name: name.current.value,
           time: time,
+          delta,
         }]
       )
 
@@ -33,7 +43,6 @@ function Watchers() {
     setWatches(
       () => {
         const index = watches.indexOf(watches.find(watch => watch.name === deleteWatchId));
-        console.log(index);
         watches = [...watches.slice(0, index), ...watches.slice(index + 1)]
         return watches;
       }
@@ -59,10 +68,10 @@ function Watchers() {
         <input type="submit" onClick={ onSubmitHandler }></input>
       </form>
       <div className="watchers-container">
-        { watches.map(watch => <Watch watchData={ watch } key={ watch.name } id={ watch.name } setWatches={ changeWatches }/>) }
+        { watches.map(watch => <Watch watchData={ watch } time={ time } key={ watch.name } id={ watch.name } />) }
       </div>
     </div>
   )
 }
 
-export default Watchers;
+export default Watches;
