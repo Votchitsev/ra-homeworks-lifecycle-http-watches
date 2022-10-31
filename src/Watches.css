@@ -24,3 +24,17 @@ input[type="submit"] {
   display: flex;
   margin-top: 50px;
 }
+
+.watch {
+  position: relative;
+  padding: 20px;
+  border: 1px solid grey;
+  margin: 10px;
+}
+
+.watch-delete {
+  position: absolute;
+  top: 1px;
+  right: 6px;
+  cursor: pointer;
+}

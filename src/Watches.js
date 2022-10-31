@@ -11,12 +11,12 @@ function Watches() {
   const timeZone = useRef();
 
   useEffect(() => {
-    setTimeout(() => {
-      setTime((time => time + 1000))
+    const interval = setInterval(() => {
+      setTime(time => time + 1000)
     }, 1000)
 
-    return;
-  }, [ time ])
+    return () => clearInterval(interval);
+  }, []);
 
   const changeWatches = (deleteWatchId) => {
     if (!deleteWatchId) {
@@ -59,16 +59,16 @@ function Watches() {
   return (
     <div className="watches">
       <form className="watches-form">
-        <label for='name'>{ 'Название' }
+        <label htmlFor='name'>{ 'Название' }
           <input type="text" name="name" ref={ name }></input>
         </label>
-        <label for="date">{ 'Временная зона' }
+        <label htmlFor="date">{ 'Временная зона' }
           <input type="text" name="date" ref={ timeZone } pattern="^(\+|\-)\d{1,2}"></input> 
         </label>
         <input type="submit" onClick={ onSubmitHandler }></input>
       </form>
-      <div className="watchers-container">
-        { watches.map(watch => <Watch watchData={ watch } time={ time } key={ watch.name } id={ watch.name } />) }
+      <div className="watches-container">
+        { watches.map(watch => <Watch watchData={ watch } time={ time } key={ watch.name } id={ watch.name } changeWatches={ changeWatches } />) }
       </div>
     </div>
   )
